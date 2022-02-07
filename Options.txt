@@ -1,0 +1,42 @@
+CAT_1	From school.    1
+CAT_1	From a friend.    2
+CAT_1	From Social Media.    3
+CAT_1	From parents    4
+CAT_1	Internet search    5
+CAT_1	Other    6
+CAT_2	It's fun!    1
+CAT_2	I want to something new.    2
+CAT_2	I want to make a game.    3
+CAT_2	I want to ge a coder.    4
+CAT_2	As a friend activity.    5
+CAT_2	I'm trapped in a dungeon.    6
+CAT_3	Definitely.    1
+CAT_3	Probably.    2
+CAT_3	Maybe    3
+CAT_3	Probably not.    4
+CAT_3	Definitely not.    5
+CAT_4	Always.    1
+CAT_4	Usually.    2
+CAT_4	Sometimes.    3
+CAT_4	Rarely.    4
+CAT_4	Never.    5
+CAT_5	Always.    1
+CAT_5	Usually.    2
+CAT_5	Sometimes.    3
+CAT_5	Rarely.    4
+CAT_5	Never.    5
+CAT_6	Being creative.    1
+CAT_6	Making friends.    2
+CAT_6	Learning a new skill.    3
+CAT_6	Being challenged.    4
+CAT_6	Other/I don't know    5
+CAT_7	Too fast    1
+CAT_7	Fast    2
+CAT_7	Just right    3
+CAT_7	Slow    4
+CAT_7	Too slow    5
+CAT_8	Exactly    1
+CAT_8	Mostly    2
+CAT_8	Somewhat    3
+CAT_8	A little    4
+CAT_8	I was surprised!     5

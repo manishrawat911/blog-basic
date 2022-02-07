@@ -1,0 +1,2 @@
+ALTER TABLE options ADD COLUMN option_desc TEXT NOT NULL;
+ALTER TABLE options ADD COLUMN option_weight INT NOT NULL;
