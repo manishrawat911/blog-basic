@@ -26,6 +26,15 @@ instance Controller SurveysController where
 
     action ShowSurveyAction { surveyId } = do
         survey <- fetch surveyId
+        let categories = allEnumValues @QuestionCategory
+        surveyquestionsList <- query @SurveyQuestion |> filterWhere (#surveyId , surveyId)|> fetch 
+
+        -- let allQuestions:: 
+
+        let ys = map mapToUUID surveyquestionsList
+        -- putStrLn (show ys)  
+
+        questions <- fetch ys
         render ShowView { .. }
 
     action EditSurveyAction { surveyId } = do
@@ -33,7 +42,19 @@ instance Controller SurveysController where
         do
             let categories = allEnumValues @QuestionCategory
             -- Work here
-            surveyquestions <- query @SurveyQuestion |> filterWhere (#surveyId , surveyId)|> fetch 
+            surveyquestionsList <- query @SurveyQuestion |> filterWhere (#surveyId , surveyId)|> fetch -- |> select #questionId
+            -- putStrLn "Hello"
+            -- let sizeQ = length surveyquestions
+            -- putStrLn (show sizeQ)
+            -- putStrLn (inputValue (get #id (surveyquestions !! 0)))
+
+            let ys = map mapToUUID surveyquestionsList
+            putStrLn (show ys)  
+
+            survey_questions <- fetch ys
+
+            putStrLn (show survey_questions)
+            
             -- questionIds <- map (get #questionId) surveyquestions
             -- questions <- query @Question |> filterWhereIn (#id, get #id surveyquestions)
             render EditView { .. }
@@ -82,24 +103,70 @@ instance Controller SurveysController where
         setSuccessMessage "Survey deleted"
         redirectTo SurveysAction
     
-    -- action BuildSurveyAction { surveyId } = do 
-    --     -- fetch questionids for 
-    -- list of questions
-    -- call StartSurveyAction ( surveyid, questionslist, nextQuestion, index)
-    -- 
+    action BuildSurveyAction { surveyId } = do 
+        -- fetch questionids for 
+        -- survey <- fetch surveyId
+        -- questionsForsurvey <- query @SurveyQuestion |> filterWhere (#surveyId, surveyId) |> fetch
+        -- let questionIds:: [Id Question] = map mapToUUID questionsForsurvey
+        
+        -- -- let questions = fetch questionIds
+        -- do
+        --     -- questions:: [Question] <- sqlQuery "SELECT * FROM questions WHERE id IN ?" (Only (In questionIds))
+        --     questions:: [Question] <- fetch questionIds
+        --     let firstQuestion:: Question = questions !! 0
 
-    action StartSurveyAction { surveyId } = do
+        --     -- do
+        --     --     let fQuestion = questions !! 0
+        --     --     case fQuestion of
+        --     --         Just Question-> do   
+        --     --             firstQuestion <- fQuestion 
+        --     --             render StartSurveyView{..}
+        --     -- render StartSurveyView{..}
+        --     -- let index = 0
+            let index = 0
+            redirectTo StartSurveyAction {..}
+        -- call StartSurveyAction ( surveyid, questionslist, nextQuestion, index)
+        -- questions:: [Question], survey :: Survey, question:: Question, options:: [Option]
+        
+
+
+    action StartSurveyAction { surveyId, index } = do
         -- survyeId, questionList, questionId, userid, 
         -- fetch questions for given survey id
         -- pass theses question to view
         -- if head of questionList isn't empty
         -- render head of the questions list
         --
+        -- survey <- fetch surveyId
+        -- surveyquestionsList <- query @SurveyQuestion |> filterWhere (#surveyId , surveyId)|> fetch -- |> select #questionId
+        -- let ys = map mapToUUID surveyquestionsList
+        -- questions <- fetch ys
+        -- let firstQuestion = questions !! 0
+        -- let index = 0
+        --  <- 
         survey <- fetch surveyId
-        render StartSurveyView{ .. }
+        questionsForsurvey <- query @SurveyQuestion |> filterWhere (#surveyId, surveyId) |> fetch
+        let questionIds:: [Id Question] = map mapToUUID questionsForsurvey
+        
+        -- let questions = fetch questionIds
+        do
+            questions:: [Question] <- fetch questionIds
+            let firstQuestion:: Question = questions !! index
+            options:: [Option] <- query @Option |> filterWhere (#category, get #optionCategory firstQuestion) |> fetch
+            putStrLn (show options)
+        -- questions:: [Question] <- sqlQuery "SELECT * FROM questions WHERE id IN ?" (Only (In questionIds))
+            render StartSurveyView{..}
+        -- render StartSurveyView{}
 
-    -- action SubmitResponseAction { surveyId } = do
-    --     putStrLn "Response Submitted"
+    action SubmitResponseAction { surveyId, questionId, optionId, index } = do
+        surveyQuestionResponse <- newRecord @Response
+            |> set #surveyId (surveyId)
+            |> set #questionId (questionId)
+            |> set #optionId (optionId)
+            |> createRecord
+        
+        index <- return (index + 1)
+        redirectTo StartSurveyAction{..}
     --     r
 
 buildSurvey survey = survey
@@ -146,9 +213,22 @@ setQuestionForSurvey questionsList surveyid = do
 
 --     setQuestionForSurvey 
 
-getSurveyQuestionIds :: SurveyQuestion -> Maybe [Id Question]
+-- getSurveyQuestionIds :: SurveyQuestion -> Maybe [Id Question]
 
-getSurveyQuestionIds [] = Nothing
+-- getSurveyQuestionIds [] = putStrLn "Noting"
 
 -- getSurveyQuestionIds surveyQuestion = do
 --     (get #questionId surveyQuestion) +
+
+mapToUUID :: SurveyQuestion -> Id Question
+
+mapToUUID sq = do
+    get #questionId sq
+
+fetchOptionsForQuestion::(?modelContext :: ModelContext) => Question -> IO [Option]
+fetchOptionsForQuestion question = do
+    query @Option |> filterWhere (#category, get #optionCategory question)|> fetch
+
+fetchQuestionsForIds::(?modelContext :: ModelContext) => [Id Question] -> IO [Question]
+fetchQuestionsForIds ids = do
+    fetch ids

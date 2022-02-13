@@ -11,10 +11,9 @@ CREATE TABLE questions (
 );
 CREATE TABLE responses (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
-    response_category ResponseCategory NOT NULL,
-    response_desc TEXT NOT NULL,
-    response_weight INT NOT NULL,
-    response_seq INT NOT NULL
+    survey_id UUID NOT NULL,
+    question_id UUID NOT NULL,
+    option_id UUID NOT NULL
 );
 CREATE TABLE surveys (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
@@ -33,7 +32,7 @@ CREATE TABLE options (
     category OptionCategory NOT NULL,
     option_desc TEXT NOT NULL,
     option_weight INT NOT NULL,
-    option_seq TEXT NOT NULL,
+    option_seq INT NOT NULL,
     active BOOLEAN DEFAULT true NOT NULL
 );
 CREATE TABLE survey_questions (
@@ -41,5 +40,8 @@ CREATE TABLE survey_questions (
     survey_id UUID NOT NULL,
     question_id UUID NOT NULL
 );
+ALTER TABLE responses ADD CONSTRAINT responses_ref_option_id FOREIGN KEY (option_id) REFERENCES options (id) ON DELETE NO ACTION;
+ALTER TABLE responses ADD CONSTRAINT responses_ref_question_id FOREIGN KEY (question_id) REFERENCES questions (id) ON DELETE NO ACTION;
+ALTER TABLE responses ADD CONSTRAINT responses_ref_survey_id FOREIGN KEY (survey_id) REFERENCES surveys (id) ON DELETE NO ACTION;
 ALTER TABLE survey_questions ADD CONSTRAINT survey_questions_ref_question_id FOREIGN KEY (question_id) REFERENCES questions (id) ON DELETE NO ACTION;
 ALTER TABLE survey_questions ADD CONSTRAINT survey_questions_ref_survey_id FOREIGN KEY (survey_id) REFERENCES surveys (id) ON DELETE NO ACTION;

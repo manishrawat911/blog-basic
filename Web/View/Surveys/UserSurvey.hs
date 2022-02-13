@@ -38,6 +38,6 @@ renderSurvey survey = [hsx|
         <td>{get #surveyCategory survey}</td>
         <!-- <td>{survey}</td> -->
         <!-- <td>{inputValue (get #id survey)}</td> -->
-        <td><a href={StartSurveyAction (get #id survey) } >Start Survey</a></td>
+        <td><a href={BuildSurveyAction (get #id survey) } >Start Survey</a></td>
     </tr>
 |]

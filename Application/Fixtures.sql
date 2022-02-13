@@ -62,7 +62,52 @@ INSERT INTO public.survey_questions (id, survey_id, question_id) VALUES ('92e6bb
 INSERT INTO public.survey_questions (id, survey_id, question_id) VALUES ('cf6f2f15-f79b-4989-8493-42f7a247a9f1', '679abf01-1a73-4a18-a1b3-88efa5ee6f9d', '7ab2a112-9604-4a18-b840-7dd71bf99083');
 
 
+
+
 ALTER TABLE public.survey_questions ENABLE TRIGGER ALL;
+
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_1', 'From school.',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_1', 'From a friend.',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_1', 'From Social Media.',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_1', 'From parents',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_1', 'Internet search',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_1', 'Other',  1 , 6);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_2', 'It''s fun!',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_2', 'I want to something new.',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_2', 'I want to make a game.',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_2', 'I want to ge a coder.',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_2', 'As a friend activity.',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_2', 'I''m trapped in a dungeon.',  1 , 6);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_3', 'Definitely.',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_3', 'Probably.',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_3', 'Maybe',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_3', 'Probably not.',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_3', 'Definitely not.',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_4', 'Always.',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_4', 'Usually.',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_4', 'Sometimes.',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_4', 'Rarely.',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_4', 'Never.',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_5', 'Always.',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_5', 'Usually.',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_5', 'Sometimes.',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_5', 'Rarely.',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_5', 'Never.',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_6', 'Being creative.',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_6', 'Making friends.',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_6', 'Learning a new skill.',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_6', 'Being challenged.',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_6', 'Other/I don''t know',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_7', 'Too fast',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_7', 'Fast',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_7', 'Just right',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_7', 'Slow',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_7', 'Too slow',  1 , 5);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_8', 'Exactly',  1 , 1);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_8', 'Mostly',  1 , 2);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_8', 'Somewhat',  1 , 3);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_8', 'A little',  1 , 4);
+INSERT INTO public.options (category, option_desc, option_weight, option_seq) VALUES ('CAT_8', 'I was surprised! ',  1 , 5);
 
 
 ALTER TABLE public.users DISABLE TRIGGER ALL;

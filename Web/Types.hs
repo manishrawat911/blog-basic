@@ -50,9 +50,10 @@ data SurveysController
     | EditSurveyAction { surveyId :: !(Id Survey) }
     | UpdateSurveyAction { surveyId :: !(Id Survey) }
     | DeleteSurveyAction { surveyId :: !(Id Survey) }
-    | StartSurveyAction { surveyId :: !(Id Survey) }    
+    | StartSurveyAction {  surveyId :: !(Id Survey), index:: Int}    
     | UserSurveyAction
-    -- | SubmitResponseAction { surveyId :: !(Id Survey)}
+    | BuildSurveyAction { surveyId :: !(Id Survey) }  
+    | SubmitResponseAction {surveyId :: !(Id Survey), questionId:: !(Id Question), optionId:: !(Id Option), index:: Int }
     deriving (Eq, Show, Data)
 
 data UsersController

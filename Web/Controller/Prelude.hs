@@ -1,3 +1,5 @@
+{-#LANGUAGE AllowAmbiguousTypes#-}
+
 module Web.Controller.Prelude
 ( module Web.Types
 , module Application.Helper.Controller
@@ -11,3 +13,4 @@ import Application.Helper.Controller
 import IHP.ControllerPrelude
 import Generated.Types
 import Web.Routes
+import Data.Maybe

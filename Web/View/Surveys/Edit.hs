@@ -1,7 +1,7 @@
 module Web.View.Surveys.Edit where
 import Web.View.Prelude
 
-data EditView = EditView { survey :: Survey, categories :: [QuestionCategory ] }
+data EditView = EditView { survey :: Survey, categories :: [QuestionCategory] }
 
 instance View EditView where
     html EditView { .. } = [hsx|
