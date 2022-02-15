@@ -103,9 +103,9 @@ instance Controller SurveysController where
         setSuccessMessage "Survey deleted"
         redirectTo SurveysAction
     
-    action BuildSurveyAction { surveyId } = do 
+    action BuildSurveyAction { surveyId , index} = do 
         -- fetch questionids for 
-        -- survey <- fetch surveyId
+        survey <- fetch surveyId
         -- questionsForsurvey <- query @SurveyQuestion |> filterWhere (#surveyId, surveyId) |> fetch
         -- let questionIds:: [Id Question] = map mapToUUID questionsForsurvey
         
@@ -123,8 +123,16 @@ instance Controller SurveysController where
         --     --             render StartSurveyView{..}
         --     -- render StartSurveyView{..}
         --     -- let index = 0
-            let index = 0
-            redirectTo StartSurveyAction {..}
+        survey
+            |> buildSurvey
+            |> ifValid \case
+                Left survey -> do 
+                    -- let categories = allEnumValues @QuestionCategory
+                    -- render EditView { .. }
+                    putStrLn "some error occured"
+                Right survey -> do
+                    let starting_index = index
+                    redirectTo StartSurveyAction { surveyId = surveyId, index = starting_index}
         -- call StartSurveyAction ( surveyid, questionslist, nextQuestion, index)
         -- questions:: [Question], survey :: Survey, question:: Question, options:: [Option]
         
@@ -147,16 +155,21 @@ instance Controller SurveysController where
         survey <- fetch surveyId
         questionsForsurvey <- query @SurveyQuestion |> filterWhere (#surveyId, surveyId) |> fetch
         let questionIds:: [Id Question] = map mapToUUID questionsForsurvey
-        
+        let length_of_questions = length questionIds
+        putStrLn ("Lenght of question is " <> show length_of_questions)
+        if (length questionIds) <= index
+            then
+                redirectTo UserSurveyAction 
+        else
         -- let questions = fetch questionIds
-        do
-            questions:: [Question] <- fetch questionIds
-            let firstQuestion:: Question = questions !! index
-            options:: [Option] <- query @Option |> filterWhere (#category, get #optionCategory firstQuestion) |> fetch
-            putStrLn (show options)
-        -- questions:: [Question] <- sqlQuery "SELECT * FROM questions WHERE id IN ?" (Only (In questionIds))
-            render StartSurveyView{..}
-        -- render StartSurveyView{}
+            do
+                questions:: [Question] <- fetch questionIds
+                let firstQuestion:: Question = questions !! index
+                options:: [Option] <- query @Option |> filterWhere (#category, get #optionCategory firstQuestion) |> fetch
+                putStrLn (show options)
+            -- questions:: [Question] <- sqlQuery "SELECT * FROM questions WHERE id IN ?" (Only (In questionIds))
+                render StartSurveyView{..}
+            -- render StartSurveyView{}
 
     action SubmitResponseAction { surveyId, questionId, optionId, index } = do
         surveyQuestionResponse <- newRecord @Response
@@ -166,7 +179,9 @@ instance Controller SurveysController where
             |> createRecord
         
         index <- return (index + 1)
-        redirectTo StartSurveyAction{..}
+        putStrLn ("Next index would be " <> show index)
+        -- redirectTo StartSurveyAction{..}
+        redirectToPath ((pathTo StartSurveyAction { .. }))
     --     r
 
 buildSurvey survey = survey

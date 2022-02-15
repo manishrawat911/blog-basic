@@ -13,46 +13,20 @@ instance View StartSurveyView where
     <!-- {renderSurveyDetails survey} -->
     <!-- {get #surveyName survey} -->
     <!-- {renderQuestions questions} -->
-    {renderQuestion firstQuestion}
-    
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary active">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked> Not Well
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option2" autocomplete="off"> Good
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option3" autocomplete="off"> Never Better!
-        </label>
+    <div class="container position-relative">
+        <ul class="list-group">
+                {renderQuestion firstQuestion}
+        </ul>
     </div>
+
       |]    where
-                renderQuestions :: [Question] -> Html
-                renderQuestions questions = [hsx| 
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Select questions</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>{forEach questions renderQuestion}</tbody>
-                    </table>     
-                </div>
-                |]
                     
                 renderQuestion:: Question -> Html
                 renderQuestion question = [hsx|
-                    <tr>
-                        <!-- <td><input type="checkbox" id="{get #id question}"></td> -->
-                        <!-- <td><input type="checkbox" value={get #id question}></td> -->
-                        
-                        <!-- <td><input type="checkbox" name="questionsL" value={inputValue (get #id question)}></td> -->
-                        <!-- <td><input name="questions" type="checkbox" value={get #id question}></td> -->
-                        <td>{get #qstnDesc question}</td>
-                        {renderOptions options}
-                    </tr>
+                    <h1 class="display-4 text-center">{get #qstnDesc question}</h1>
+
+                    {renderOptions options}
+            
                 |]
 
                 renderOptions:: [Option] -> Html
@@ -64,9 +38,11 @@ instance View StartSurveyView where
 
                 renderOption:: Option -> Html
                 renderOption option = [hsx|
-                    <li>
-                        <a href={ SubmitResponseAction (surveyId) (get #id firstQuestion) (get #id option) index}>{get #optionDesc option}</a>
+                    <li class="list-group-item">
+                        <a class="btn btn-primary w-100 p-3" href={ SubmitResponseAction (surveyId) (get #id firstQuestion) (get #id option) index}>
+                            <p class="h2">{get #optionDesc option}</p></a>
                     </li>
+                        <!-- <button type="button" onclick= "{ UserSurveyAction }" class="btn btn-primary btn-lg">Large button</button> -->
                 |]
 
 
