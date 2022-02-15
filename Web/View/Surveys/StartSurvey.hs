@@ -31,7 +31,7 @@ instance View StartSurveyView where
 
                 renderOptions:: [Option] -> Html
                 renderOptions options = [hsx|
-                    <ul>
+                    <ul class="list-group">
                         {forEach options renderOption}
                     </ul>
                 |]
@@ -40,7 +40,7 @@ instance View StartSurveyView where
                 renderOption option = [hsx|
                     <li class="list-group-item">
                         <a class="btn btn-primary w-100 p-3" href={ SubmitResponseAction (surveyId) (get #id firstQuestion) (get #id option) index}>
-                            <p class="h2">{get #optionDesc option}</p></a>
+                            <p class="h4">{get #optionDesc option}</p></a>
                     </li>
                         <!-- <button type="button" onclick= "{ UserSurveyAction }" class="btn btn-primary btn-lg">Large button</button> -->
                 |]
