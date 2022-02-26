@@ -6,13 +6,7 @@ data StartSurveyView = StartSurveyView {surveyId:: Id Survey, questions:: [Quest
 
 instance View StartSurveyView where
     html StartSurveyView {..} = [hsx| 
-    <!-- <h1>
-        
-        How are you feeling today?
-    </h1> -->
-    <!-- {renderSurveyDetails survey} -->
-    <!-- {get #surveyName survey} -->
-    <!-- {renderQuestions questions} -->
+    
     <div class="container position-relative">
         <ul class="list-group">
                 {renderQuestion firstQuestion}
@@ -41,16 +35,5 @@ instance View StartSurveyView where
                     <li class="list-group-item">
                         <a class="btn btn-primary w-100 p-3" href={ SubmitResponseAction (surveyId) (get #id firstQuestion) (get #id option) index}>
                             <p class="h4">{get #optionDesc option}</p></a>
-                    </li>
-                        <!-- <button type="button" onclick= "{ UserSurveyAction }" class="btn btn-primary btn-lg">Large button</button> -->
+                    </li>                        
                 |]
-
-
-
--- renderSurveyDetails :: Survey -> Html
--- renderSurveyDetails survey = [hsx|
---     <!-- <h1>Hello there</h1> -->
---     <h1>{(get #surveyName survey)}</h1>
---     <!-- <a href={SubmitResponseAction (get #id survey)}>Click me!</a> -->
-
--- |]

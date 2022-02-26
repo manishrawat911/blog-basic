@@ -21,6 +21,9 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     <title>{pageTitleOrDefault "App"}</title>
 </head>
 <body>
+    <div>
+        {renderHeader}
+    </div>
     <div class="container mt-4">
         {renderFlashMessages}
         {inner}
@@ -70,4 +73,9 @@ metaTags = [hsx|
     <meta property="og:url" content="TODO"/>
     <meta property="og:description" content="TODO"/>
     {autoRefreshMeta}
+|]
+
+renderHeader:: Html
+renderHeader = [hsx|
+    welcome user
 |]

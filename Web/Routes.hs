@@ -13,3 +13,6 @@ instance AutoRoute SurveysController
 
 instance AutoRoute UsersController
 
+
+instance AutoRoute SessionsController
+

@@ -17,7 +17,7 @@ instance View EditView where
 
 renderForm :: User -> Html
 renderForm user = formFor user [hsx|
-    {(textField #username)}
+    {(textField #email)}
     {(textField #userGroup)}
     {(textField #userRole)}
     {submitButton}

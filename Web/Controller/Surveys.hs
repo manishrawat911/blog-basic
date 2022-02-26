@@ -9,12 +9,24 @@ import Web.View.Surveys.StartSurvey
 import Web.View.Surveys.UserSurvey
 
 instance Controller SurveysController where
+
+    beforeAction = do 
+        ensureIsUser
+
     action SurveysAction = do
         surveys <- query @Survey |> fetch
         render IndexView { .. }
 
     action UserSurveyAction = do
-        surveys <- query @Survey |> filterWhere (#active, True)|> fetch
+        let currentUserId = get #email currentUser
+        completedSurveys <- query @Response |> filterWhere (#email, currentUserId) |> fetch
+
+        let completedSurveysId = map mapResponseToSurveyUUID completedSurveys
+
+        surveys <- query @Survey 
+            |> filterWhere (#active, True)
+            |> filterWhereNotIn (#id, completedSurveysId)
+            |> fetch --add filter if survey is completed by user
         render UserSurveyView { .. }
 
     action NewSurveyAction = do
@@ -176,6 +188,7 @@ instance Controller SurveysController where
             |> set #surveyId (surveyId)
             |> set #questionId (questionId)
             |> set #optionId (optionId)
+            |> set #email (get #email currentUser)
             |> createRecord
         
         index <- return (index + 1)
@@ -247,3 +260,8 @@ fetchOptionsForQuestion question = do
 fetchQuestionsForIds::(?modelContext :: ModelContext) => [Id Question] -> IO [Question]
 fetchQuestionsForIds ids = do
     fetch ids
+
+mapResponseToSurveyUUID :: Response -> Id Survey
+
+mapResponseToSurveyUUID sq = do
+    get #surveyId sq

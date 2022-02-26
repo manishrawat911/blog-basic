@@ -4,11 +4,18 @@ import IHP.Prelude
 import IHP.ModelSupport
 import Generated.Types
 import IHP.MailPrelude (CanSelect (selectValue, selectLabel), SelectValue)
+-- Sessions Imports
+import IHP.LoginSupport.Types
 
 data WebApplication = WebApplication deriving (Eq, Show)
 
 
 data StaticController = WelcomeAction deriving (Eq, Show, Data)
+
+instance HasNewSessionUrl User where
+    newSessionUrl _ = "/NewSession"
+
+type instance CurrentUserRecord = User
 
 data QuestionsController
     = QuestionsAction
@@ -79,3 +86,10 @@ instance CanSelect OptionCategory where
     selectLabel Cat6 = "CAT 6"
     selectLabel Cat7 = "CAT 7"
     selectLabel Cat8 = "CAT 8"
+
+data SessionsController
+    = NewSessionAction
+    | CreateSessionAction
+    | DeleteSessionAction
+    deriving (Eq, Show, Data)
+

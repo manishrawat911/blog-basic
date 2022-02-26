@@ -30,7 +30,10 @@ instance Controller UsersController where
             |> ifValid \case
                 Left user -> render EditView { .. }
                 Right user -> do
-                    user <- user |> updateRecord
+                    hashed <- hashPassword (get #passwordHash user)
+                    user <- user 
+                        |> set #passwordHash hashed
+                        |> updateRecord
                     setSuccessMessage "User updated"
                     redirectTo EditUserAction { .. }
 
@@ -41,8 +44,10 @@ instance Controller UsersController where
             |> ifValid \case
                 Left user -> render NewView { .. } 
                 Right user -> do
-                    user <- user |> createRecord
-                    setSuccessMessage "User created"
+                    hashed <- hashPassword (get #passwordHash user)
+                    user <- user 
+                        |> set #passwordHash hashed
+                        |> createRecord
                     redirectTo UsersAction
 
     action DeleteUserAction { userId } = do
@@ -52,4 +57,4 @@ instance Controller UsersController where
         redirectTo UsersAction
 
 buildUser user = user
-    |> fill @["username","userGroup","userRole"]
+    |> fill @["email","passwordHash","userGroup","userRole"]

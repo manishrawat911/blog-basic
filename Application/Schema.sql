@@ -13,7 +13,8 @@ CREATE TABLE responses (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     survey_id UUID NOT NULL,
     question_id UUID NOT NULL,
-    option_id UUID NOT NULL
+    option_id UUID NOT NULL,
+    email TEXT NOT NULL
 );
 CREATE TABLE surveys (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
@@ -23,9 +24,12 @@ CREATE TABLE surveys (
 );
 CREATE TABLE users (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
-    username TEXT NOT NULL,
+    email TEXT NOT NULL,
     user_group TEXT NOT NULL,
-    user_role TEXT NOT NULL
+    user_role TEXT NOT NULL,
+    password_hash TEXT NOT NULL,
+    locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    failed_login_attempts INT DEFAULT 0 NOT NULL
 );
 CREATE TABLE options (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,

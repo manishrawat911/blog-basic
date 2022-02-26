@@ -9,6 +9,10 @@ import Web.View.Questions.New
 import Web.View.Questions.Edit (EditView(question))
 
 instance Controller QuestionsController where
+    
+    beforeAction = do 
+        ensureIsUser
+
     action QuestionsAction = do
         questions <- query @Question |> fetch
         render IndexView { .. }
